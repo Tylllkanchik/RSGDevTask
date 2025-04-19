@@ -14,6 +14,7 @@ namespace Content.Features.GameBootstrapModule.Scripts.ProjectDI {
     public class GlobalSceneContextInstaller : ScriptableObjectInstaller<GlobalSceneContextInstaller> {
         public override void InstallBindings() {
             PrefabSpawnerInstaller.Install(Container);
+            EntityFactoryInstaller.Install(Container);
             PlayerDataInstaller.Install(Container);
             CameraInstaller.Install(Container);
             StorageModuleInstaller.Install(Container);

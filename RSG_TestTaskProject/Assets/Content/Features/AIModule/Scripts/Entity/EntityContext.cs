@@ -1,7 +1,6 @@
 ﻿using System;
 using Content.Features.DamageablesModule.Scripts;
 using Content.Features.EntityAnimatorModule.Scripts;
-using Content.Features.StorageModule.Scripts;
 using UnityEngine.AI;
 
 namespace Content.Features.AIModule.Scripts.Entity {
@@ -14,6 +13,5 @@ namespace Content.Features.AIModule.Scripts.Entity {
         
         public IDamageable EntityDamageable;
         public IEntity Entity;
-        public IStorage Storage;
     }
 }

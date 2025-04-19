@@ -1,5 +1,6 @@
 ﻿using System;
 using Content.Features.LootModule.Scripts;
+using Content.Features.StorageModule.Scripts;
 using UnityEngine;
 
 namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
@@ -42,10 +43,13 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
             Vector3.Distance(_entityContext.EntityDamageable.Position, _loot.transform.position) <= _entityContext.EntityData.InteractDistance;
 
         private void CollectLoot() {
-            _lootService.CollectLoot(_loot, _entityContext.Storage);
-            _loot.DestroyLoot();
-            StopMoving();
-            OnBehaviorEnd?.Invoke();
+            if (_entityContext.Entity.TryGetEntityComponent(out IStorage storage))
+            {
+                _lootService.CollectLoot(_loot, storage);
+                _loot.DestroyLoot();
+                StopMoving();
+                OnBehaviorEnd?.Invoke();
+            }
         }
     }
 }

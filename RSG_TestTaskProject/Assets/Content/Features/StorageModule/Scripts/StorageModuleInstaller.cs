@@ -10,6 +10,10 @@ namespace Content.Features.StorageModule.Scripts {
                 .FromScriptableObject(addressablesAssetLoaderService.LoadAsset<ItemsConfiguration>(Address.Configurations.ItemsConfiguration_Default))
                 .AsSingle();
 
+            Container.Bind<StoragesConfiguration>()
+                .FromScriptableObject(addressablesAssetLoaderService.LoadAsset<StoragesConfiguration>(Address.Configurations.StoragesConfiguration_Default))
+                .AsSingle();
+
             Container.Bind<IItemFactory>()
                 .To<ItemFactory>()
                 .AsSingle();

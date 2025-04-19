@@ -1,6 +1,7 @@
 using Content.Features.GameFlowStateMachineModule.Scripts;
 using Core.AssetLoaderModule.Core.Scripts;
 using Core.SceneLoaderServiceModule.Scripts;
+using Core.WindowServiceModule;
 using UnityEngine;
 using Zenject;
 
@@ -12,6 +13,7 @@ namespace Content.Features.GameBootstrapModule.Scripts.ProjectDI {
             SceneLoaderServiceModuleInstaller.Install(Container);
             GameFlowStateMachineInstaller.Install(Container);
             AssetLoaderInstaller.Install(Container);
+            WindowServiceInstaller.Install(Container);
         }
     }
 }

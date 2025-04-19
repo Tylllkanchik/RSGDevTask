@@ -1,6 +1,8 @@
 ﻿using Content.Features.AIModule.Scripts.Entity.EntityBehaviours;
 using Content.Features.DamageablesModule.Scripts;
+using Content.Features.EntityComponentModule.Scripts;
 using Content.Features.StorageModule.Scripts;
+using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
@@ -9,16 +11,16 @@ namespace Content.Features.AIModule.Scripts.Entity {
         [SerializeField] private EntityContext _entityContext;
         [SerializeField] private EntityType _entityType;
         [SerializeField] private bool _isAggressive;
-        
+
+        private List<IComponent> _entityComponents = new List<IComponent>();
+
         private IEntityBehaviour _currentBehaviour;
         private IEntityDataService _entityDataService;
-        private IStorageFactory _storageFactory;
         private IEntityBehaviourFactory _entityBehaviourFactory;
 
         [Inject]
-        public void InjectDependencies(IEntityDataService entityDataService, IStorageFactory storageFactory, IEntityBehaviourFactory entityBehaviourFactory) {
+        public void InjectDependencies(IEntityDataService entityDataService, IEntityBehaviourFactory entityBehaviourFactory) {
             _entityBehaviourFactory = entityBehaviourFactory;
-            _storageFactory = storageFactory;
             _entityDataService = entityDataService;
         }
 
@@ -27,7 +29,6 @@ namespace Content.Features.AIModule.Scripts.Entity {
             _entityContext.EntityDamageable = GetComponent<IDamageable>();
             _entityContext.EntityData = _entityDataService.GetEntityData(_entityType);
             _entityContext.EntityDamageable.SetHealth(_entityContext.EntityData.StartHealth);
-            _entityContext.Storage = _storageFactory.GetStorage();
             
             SetDefaultBehaviour();
         }
@@ -41,6 +42,34 @@ namespace Content.Features.AIModule.Scripts.Entity {
 
             _currentBehaviour.Stop();
             _currentBehaviour.OnBehaviorEnd -= OnBehaviourEnded;
+        }
+
+        public void Bind(List<IComponent> components)
+        {
+            _entityComponents = components;
+            var entityComponents = gameObject.GetComponentsInChildren<IMonoComponent>();
+            foreach (var component in entityComponents) {
+                var componentToBind = components.Find(c => c.GetType() == component.ComponentType);
+                if (componentToBind != null) { 
+                    component.Bind(componentToBind);
+                }
+            }
+        }
+
+        public bool TryGetEntityComponent<T>(out T component) where T : IComponent
+        {
+            component = default;
+            for(int i = 0; i < _entityComponents.Count; i++)
+            {
+                IComponent entityComponent = _entityComponents[i];
+                if (entityComponent is T com)
+                {
+                    component = com;
+                    return true;
+                }
+            }
+           
+            return false;
         }
 
         public void SetBehaviour(IEntityBehaviour entityBehaviour) {

@@ -1,5 +1,6 @@
 ﻿using System;
 using Content.Features.ShopModule.Scripts;
+using Content.Features.StorageModule.Scripts;
 using UnityEngine;
 
 namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
@@ -36,9 +37,12 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
             Vector3.Distance(_entityContext.EntityDamageable.Position, _trader.transform.position) <= _entityContext.EntityData.InteractDistance;
 
         private void SellItems() {
-            _trader.SellAllItemsFromStorage(_entityContext.Storage);
-            StopMoving();
-            OnBehaviorEnd?.Invoke();
+            if (_entityContext.Entity.TryGetEntityComponent(out IStorage storage))
+            {
+                _trader.SellAllItemsFromStorage(storage);
+                StopMoving();
+                OnBehaviorEnd?.Invoke();
+            }
         }
     }
 }

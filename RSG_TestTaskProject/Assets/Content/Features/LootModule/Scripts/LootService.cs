@@ -9,7 +9,7 @@ namespace Content.Features.LootModule.Scripts {
 
         public void CollectLoot(Loot loot, IStorage storage) {
             foreach (ItemType itemType in loot.GetItemsInLoot())
-                storage.AddItem(_itemFactory.GetItem(itemType));
+                storage.TryAddItem(_itemFactory.GetItem(itemType));
         }
     }
 }

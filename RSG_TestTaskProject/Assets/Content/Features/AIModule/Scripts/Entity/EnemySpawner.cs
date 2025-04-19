@@ -8,7 +8,7 @@ namespace Content.Features.LootModule.Scripts {
         private IPrefabsFactory _prefabsFactory;
 
         [Inject]
-        public void InjectDependencies( IPrefabsFactory prefabsFactory) {
+        public void InjectDependencies(IPrefabsFactory prefabsFactory) {
             _prefabsFactory = prefabsFactory;
         }
 

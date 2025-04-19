@@ -1,4 +1,5 @@
-﻿using Core.AssetLoaderModule.Core.Scripts;
+﻿using Content.Features.PrefabSpawner;
+using Core.AssetLoaderModule.Core.Scripts;
 using Global.Scripts.Generated;
 using Zenject;
 
@@ -16,7 +17,7 @@ namespace Content.Features.AIModule.Scripts.Entity {
             Container.Bind<IEntityBehaviourFactory>()
                 .To<EntityBehaviourFactory>()
                 .AsSingle();
-            
+
             Container.Bind<IEntityDataService>()
                 .To<EntityDataService>()
                 .AsSingle();

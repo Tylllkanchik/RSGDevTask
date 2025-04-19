@@ -1,3 +1,4 @@
+using Content.Features.AIModule.Scripts.Entity;
 using Content.Features.PrefabSpawner;
 using UnityEngine;
 using Zenject;
@@ -8,6 +9,7 @@ namespace Content.Features.GameBootstrapModule.Scripts.ProjectDI {
     public class DungeonSceneContextInstaller : ScriptableObjectInstaller<DungeonSceneContextInstaller> {
         public override void InstallBindings() {
             PrefabSpawnerInstaller.Install(Container);
+            EntityFactoryInstaller.Install(Container);
         }
     }
 }
