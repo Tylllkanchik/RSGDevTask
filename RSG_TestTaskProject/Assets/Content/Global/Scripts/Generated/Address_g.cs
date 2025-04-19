@@ -8,8 +8,8 @@ namespace Global.Scripts.Generated {
             "EntitiesConfiguration_Default",
             "ItemsConfiguration_Default",
             "GamePrefabsConfiguration",
-            "WindowService",
             "HudWindow",
+            "WindowService",
             "BootstrapScene",
             "GlobalScene",
             "SurfaceScene",
@@ -37,11 +37,11 @@ namespace Global.Scripts.Generated {
         } 
 
         public static class Windows { 
-            public const System.String WindowService = "WindowService"; 
             public const System.String HudWindow = "HudWindow"; 
+            public const System.String WindowService = "WindowService"; 
             public static List<string> AllKeys = new() {
-                "WindowService",
                 "HudWindow",
+                "WindowService",
             }; 
         } 
 

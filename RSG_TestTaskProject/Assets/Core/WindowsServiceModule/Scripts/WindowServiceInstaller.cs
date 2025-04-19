@@ -14,8 +14,12 @@ namespace Core.WindowServiceModule
             IAddressablesAssetLoaderService addressablesAssetLoaderService = Container.Resolve<IAddressablesAssetLoaderService>();
             var asset = addressablesAssetLoaderService.LoadAsset<GameObject>(Address.Windows.WindowService);
 
+            var windowServiceGameObject = GameObject.Instantiate(asset);
+            Container.InjectGameObject(windowServiceGameObject);
+            var windowService = windowServiceGameObject.GetComponent<WindowService>();
+
             Container.Bind<IWindowService>()
-                .FromInstance(GameObject.Instantiate(asset).GetComponent<WindowService>())
+                .FromInstance(windowService)
                 .AsSingle();
         }
     }

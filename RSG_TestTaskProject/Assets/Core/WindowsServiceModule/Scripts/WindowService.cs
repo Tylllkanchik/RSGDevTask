@@ -1,5 +1,6 @@
 using Core.AssetLoaderModule.Core.Scripts;
 using Cysharp.Threading.Tasks;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -26,16 +27,16 @@ namespace Core.WindowServiceModule.Scripts
             DontDestroyOnLoad(this);
         }
 
-        async UniTask<Window> IWindowService.LoadWindow<T>()
+        async UniTask<T> IWindowService.LoadWindow<T>()
         {
             return await LoadWindow<T>();
         }
 
-        async UniTask<Window> IWindowService.OpenWindow<T>()
+        async UniTask<T> IWindowService.OpenWindow<T>()
         {
             var windowName = nameof(T);
             if (_openedWindows.ContainsKey(windowName))
-                return _openedWindows[windowName];
+                return _openedWindows[windowName] as T;
 
             var window = await LoadWindow<T>();
             
@@ -68,18 +69,21 @@ namespace Core.WindowServiceModule.Scripts
             return false;
         }
 
-        private async UniTask<Window> LoadWindow<T>() where T : Window
+        private async UniTask<T> LoadWindow<T>() where T : Window
         {
-            var windowName = nameof(T);
+            var windowName = typeof(T).Name;
             if (!_loadedWindows.ContainsKey(windowName))
             {
-                var window = await _addressablesAssetLoaderService.LoadAssetAsync<Window>(windowName);
+                var asset = await _addressablesAssetLoaderService.LoadAssetAsync<GameObject>(windowName);
+
+                var windowGameObject = GameObject.Instantiate(asset, _canvasRoot);
+                var window = windowGameObject.GetComponent<T>();
                 _loadedWindows.Add(windowName, window);
-                return window;
+                return window as T;
             }
             else
             {
-                return _loadedWindows[windowName];
+                return _loadedWindows[windowName] as T;
             }
         }
     }
