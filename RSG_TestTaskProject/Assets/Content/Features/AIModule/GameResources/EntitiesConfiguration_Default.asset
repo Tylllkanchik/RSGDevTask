@@ -15,7 +15,7 @@ MonoBehaviour:
   _entityDatas:
   - EntityType: 2
     StartHealth: 10
-    Damage: 5
+    Damage: 10
     AttackDistance: 2
     InteractDistance: 3
     Speed: 5

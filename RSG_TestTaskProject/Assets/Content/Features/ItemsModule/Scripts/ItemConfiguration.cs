@@ -2,9 +2,8 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Content.Features.StorageModule.Scripts {
-    [Serializable]
-    public class ItemConfiguration {
+namespace Content.Features.ItemsModule.Scripts {
+    public class ItemConfiguration : ScriptableObject {
         public ItemType ItemType;
         public string Name;
         public Sprite Icon;

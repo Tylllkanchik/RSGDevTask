@@ -1,4 +1,4 @@
-﻿namespace Content.Features.StorageModule.Scripts {
+﻿namespace Content.Features.ItemsModule.Scripts {
     public interface IItemFactory {
         public Item GetItem(ItemType itemType);
     }

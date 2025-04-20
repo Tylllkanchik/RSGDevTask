@@ -1,4 +1,5 @@
-﻿using Content.Features.StorageModule.Scripts;
+﻿using Content.Features.ItemsModule.Scripts;
+using Content.Features.StorageModule.Scripts;
 
 namespace Content.Features.LootModule.Scripts {
     public class LootService : ILootService {

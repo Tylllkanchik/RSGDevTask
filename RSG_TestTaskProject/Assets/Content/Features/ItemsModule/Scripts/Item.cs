@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Content.Features.StorageModule.Scripts {
+namespace Content.Features.ItemsModule.Scripts {
     public class Item {
         public ItemType ItemType { get; private set; }
         public string Name { get; private set; }

@@ -2,7 +2,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace Content.Features.StorageModule.Scripts {
+namespace Content.Features.ItemsModule.Scripts {
     [CreateAssetMenu(menuName = "Configurations/Inventory/" + nameof(ItemsConfiguration), 
         fileName = nameof(ItemsConfiguration) + "_Default", order = 0)]
     public class ItemsConfiguration : ScriptableObject {

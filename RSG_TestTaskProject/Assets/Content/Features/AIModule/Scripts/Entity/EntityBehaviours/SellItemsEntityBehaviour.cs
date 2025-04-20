@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Content.Features.AIModule.Scripts.Components;
 using Content.Features.ShopModule.Scripts;
 using Content.Features.StorageModule.Scripts;
@@ -47,7 +48,9 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
         private void SellItems() {
             if (_entityContext.Entity.TryGetEntityComponent(out IStorage storage) && _entityContext.Entity.TryGetEntityComponent(out MoneyComponent moneyComponent))
             {
-                var sum = _trader.SellAllItemsFromStorage(storage);
+                var itemsToSell = storage.GetAllItems().Where(i => i.ItemType == ItemsModule.Scripts.ItemType.Book).ToList();
+
+                var sum = _trader.SellItemsFromStorage(itemsToSell, storage);
                 moneyComponent.AddMoney(sum);
                 StopMoving();
                 OnBehaviorEnd?.Invoke();

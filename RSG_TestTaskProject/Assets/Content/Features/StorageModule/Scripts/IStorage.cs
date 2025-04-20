@@ -1,4 +1,5 @@
 using Content.Features.AIModule.Scripts.Components;
+using Content.Features.ItemsModule.Scripts;
 using System;
 using System.Collections.Generic;
 

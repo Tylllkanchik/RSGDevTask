@@ -8,6 +8,7 @@ using Content.Features.PrefabSpawner;
 using UnityEngine;
 using Zenject;
 using Content.Features.GameInitializationModule;
+using Content.Features.ItemsModule.Scripts;
 
 namespace Content.Features.GameBootstrapModule.Scripts.ProjectDI {
     [CreateAssetMenu(menuName = "Configurations/GameBootstrap/" + nameof(GlobalSceneContextInstaller),
@@ -18,6 +19,7 @@ namespace Content.Features.GameBootstrapModule.Scripts.ProjectDI {
             EntityFactoryInstaller.Install(Container);
             PlayerDataInstaller.Install(Container);
             CameraInstaller.Install(Container);
+            ItemsModuleInstaller.Install(Container);
             StorageModuleInstaller.Install(Container);
             InteractionSystemInstaller.Install(Container);
             AIInstaller.Install(Container);

@@ -1,8 +1,9 @@
 using Content.Features.AIModule.Scripts.Entity;
+using Content.Features.ItemsModule.Scripts.Potion;
+using Core.InputModule;
 using Core.WindowServiceModule.Scripts;
-using Global.Scripts.Generated;
 using System;
-using UnityEngine;
+using UnityEngine.InputSystem.HID;
 using Zenject;
 
 namespace Content.Features.HudModule.Scripts
@@ -11,14 +12,18 @@ namespace Content.Features.HudModule.Scripts
     {
         private IWindowService _windowService;
         private PlayerEntityModel _playerEntityModel;
+        private PotionModule _potionModule;
+        private IInputListener _inputListener;
 
-        public HudSystem(IWindowService windowService, PlayerEntityModel playerEntityModel)
+        public HudSystem(IWindowService windowService, PlayerEntityModel playerEntityModel, PotionModule potionModule, IInputListener inputListener)
         {
             _windowService = windowService;
             _playerEntityModel = playerEntityModel;
+            _potionModule = potionModule;
+            _inputListener = inputListener;
         }
 
-        public void Initialize()
+        public async void Initialize()
         {
             _playerEntityModel.OnPlayerEntityChanged += PlayerEntityChanged;
         }
@@ -32,9 +37,8 @@ namespace Content.Features.HudModule.Scripts
         private async void PlayerEntityChanged()
         {
             var hud = await _windowService.LoadWindow<HudWindow>();
-            hud.Init(_playerEntityModel);
+            hud.Init(_playerEntityModel, _potionModule, _inputListener);
             await _windowService.OpenWindow<HudWindow>();
-
         }
     }
 }

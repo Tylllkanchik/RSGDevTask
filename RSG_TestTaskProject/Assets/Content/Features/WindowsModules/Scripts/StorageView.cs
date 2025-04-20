@@ -2,6 +2,7 @@ using Content.Features.StorageModule.Scripts;
 using TMPro;
 using UnityEngine;
 using System;
+using Content.Features.ItemsModule.Scripts;
 
 namespace Content.Features.WindowsModules.Scripts
 {

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Content.Features.StorageModule.Scripts;
+using Content.Features.ItemsModule.Scripts;
 using UnityEngine;
 
 namespace Content.Features.LootModule.Scripts {
