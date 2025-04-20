@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Content.Features.StorageModule.Scripts {
     public class StandardStorage : IStorage {
@@ -36,6 +37,7 @@ namespace Content.Features.StorageModule.Scripts {
                 _storageWeight = newStorageWeight;
                 _items.Add(item);
                 OnItemAdded?.Invoke(item);
+                return true;
             }
 
             return false;

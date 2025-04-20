@@ -18,7 +18,6 @@ namespace Content.Features.ItemsModule.Scripts.Potion
 
         public void UsePotion(IEntity target)
         {
-            Debug.LogError("UsePotion");
             if(target.TryGetEntityComponent(out IStorage storage) && target.TryGetEntityComponent(out HealthComponent healthComponent))
             {
                 var item = storage.GetAllItems().FirstOrDefault(i => i.ItemType == ItemType.Potion);

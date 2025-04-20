@@ -7,7 +7,8 @@ namespace Content.Features.ItemsModule.Scripts {
         public ItemType ItemType;
         public string Name;
         public Sprite Icon;
-        public int Price;
+        public int SellPrice;
         public float Weight;
+        public int BuyPrice;
     }
 }

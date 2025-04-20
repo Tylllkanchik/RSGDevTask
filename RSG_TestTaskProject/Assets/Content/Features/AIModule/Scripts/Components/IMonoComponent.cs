@@ -6,10 +6,8 @@ namespace Content.Features.AIModule.Scripts.Components
     {
         public Type ComponentType { get; }
 
-        public IComponent Component { get; }
-
         public void Bind(IComponent component);
 
-        public void BindNewComponent();
+        public IComponent BindNewComponent();
     }
 }

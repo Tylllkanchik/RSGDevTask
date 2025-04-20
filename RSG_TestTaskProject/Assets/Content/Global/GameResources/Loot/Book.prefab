@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _itemsInLoot: 02000000
+  _spawnChance: 3
 --- !u!54 &4130319429388033856
 Rigidbody:
   m_ObjectHideFlags: 0

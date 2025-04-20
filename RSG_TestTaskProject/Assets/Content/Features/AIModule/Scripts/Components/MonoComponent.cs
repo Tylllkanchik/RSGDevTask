@@ -5,11 +5,12 @@ namespace Content.Features.AIModule.Scripts.Components
 {
     public abstract class MonoComponent<T> : MonoBehaviour, IMonoComponent where T : IComponent
     {
-        public abstract Type ComponentType { get; } 
-
         protected T _component;
 
-        public IComponent Component => _component;
+        public abstract Type ComponentType { get; }
+        public T Component => _component;
+
+        public event Action OnComponentBind;
 
         public void Bind(IComponent data)
         {
@@ -20,9 +21,10 @@ namespace Content.Features.AIModule.Scripts.Components
             }
         }
 
-        public void BindNewComponent()
+        public IComponent BindNewComponent()
         {
             Bind(CreateNewComponent());
+            return _component;
         }
 
         protected abstract T CreateNewComponent();
