@@ -1,7 +1,6 @@
-using Content.Features.AIModule.Scripts.Entity;
 using System;
 
-namespace Content.Features.EntityComponentModule.Scripts
+namespace Content.Features.AIModule.Scripts.Components
 {
     public interface IMonoComponent
     {
@@ -10,5 +9,7 @@ namespace Content.Features.EntityComponentModule.Scripts
         public IComponent Component { get; }
 
         public void Bind(IComponent component);
+
+        public void BindNewComponent();
     }
 }

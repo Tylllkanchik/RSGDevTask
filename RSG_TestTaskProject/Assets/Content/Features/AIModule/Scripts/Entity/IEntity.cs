@@ -1,4 +1,4 @@
-﻿using Content.Features.EntityComponentModule.Scripts;
+﻿using Content.Features.AIModule.Scripts.Components;
 using System.Collections.Generic;
 
 namespace Content.Features.AIModule.Scripts.Entity {

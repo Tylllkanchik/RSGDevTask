@@ -15,7 +15,7 @@ namespace Content.Features.InteractionModule {
 
         public void Interact(IEntity entity) {
             AttackEntityBehaviour attackEntityBehaviour = _entityBehaviourFactory.GetEntityBehaviour<AttackEntityBehaviour>();
-            attackEntityBehaviour.SetTarget(GetComponent<IDamageable>());
+            attackEntityBehaviour.SetTarget(GetComponent<MonoEntity>());
             entity.SetBehaviour(attackEntityBehaviour);
         }
     }

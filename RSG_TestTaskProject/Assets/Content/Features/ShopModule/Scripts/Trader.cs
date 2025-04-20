@@ -11,7 +11,6 @@ namespace Content.Features.ShopModule.Scripts {
                 sumOfMoney += price;
 
             storage.RemoveAllItems();
-            Debug.LogError("Recieved " + sumOfMoney);
             return sumOfMoney;
         }
 

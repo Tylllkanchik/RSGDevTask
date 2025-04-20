@@ -1,4 +1,5 @@
 ﻿using System;
+using Content.Features.AIModule.Scripts.Components;
 using Content.Features.GameFlowStateMachineModule.Scripts;
 using UnityEngine;
 
@@ -7,14 +8,21 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
         private EntityContext _entityContext;
         private Vector3 _teleportPosition;
         private GameFlowStateMachine _gameFlowStateMachine;
+        private EntityTransformComponent _entityTransformComponent;
 
         public event Action OnBehaviorEnd;
 
         public MoveToDungeonEntityBehaviour(GameFlowStateMachine gameFlowStateMachine) =>
             _gameFlowStateMachine = gameFlowStateMachine;
 
-        public void InitContext(EntityContext entityContext) =>
+        public void InitContext(EntityContext entityContext)
+        {
             _entityContext = entityContext;
+            if (_entityContext.Entity.TryGetEntityComponent(out EntityTransformComponent entityTransformComponent))
+            {
+                _entityTransformComponent = entityTransformComponent;
+            }
+        }
 
         public void SetTelepotPosition(Vector3 teleportPosition) =>
             _teleportPosition = teleportPosition;
@@ -39,7 +47,7 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
             _entityContext.NavMeshAgent.ResetPath();
 
         private bool IsNearTheTarget() =>
-            Vector3.Distance(_entityContext.EntityDamageable.Position, _teleportPosition) <= _entityContext.EntityData.InteractDistance;
+            Vector3.Distance(_entityTransformComponent.Position, _teleportPosition) <= _entityContext.EntityData.InteractDistance;
 
         private void TeleportToDungeon() {
             _gameFlowStateMachine.Enter<EnterDungeonFlowState>();

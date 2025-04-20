@@ -1,5 +1,5 @@
+using Content.Features.AIModule.Scripts.Components;
 using System.Collections.Generic;
-using UnityEngine;
 
 namespace Content.Features.AIModule.Scripts.Entity
 {

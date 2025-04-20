@@ -1,7 +1,6 @@
-﻿using Content.Features.AIModule.Scripts.Entity.EntityBehaviours;
+﻿using Content.Features.AIModule.Scripts.Components;
+using Content.Features.AIModule.Scripts.Entity.EntityBehaviours;
 using Content.Features.DamageablesModule.Scripts;
-using Content.Features.EntityComponentModule.Scripts;
-using Content.Features.StorageModule.Scripts;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -24,15 +23,6 @@ namespace Content.Features.AIModule.Scripts.Entity {
             _entityDataService = entityDataService;
         }
 
-        private void Start() {
-            _entityContext.Entity = this;
-            _entityContext.EntityDamageable = GetComponent<IDamageable>();
-            _entityContext.EntityData = _entityDataService.GetEntityData(_entityType);
-            _entityContext.EntityDamageable.SetHealth(_entityContext.EntityData.StartHealth);
-            
-            SetDefaultBehaviour();
-        }
-
         private void Update() =>
             _currentBehaviour.Process();
 
@@ -53,7 +43,17 @@ namespace Content.Features.AIModule.Scripts.Entity {
                 if (componentToBind != null) { 
                     component.Bind(componentToBind);
                 }
+                else
+                {
+                    component.BindNewComponent();
+                }
             }
+
+            _entityContext.Entity = this;
+            _entityContext.EntityDamageable = GetComponent<IDamageable>();
+            _entityContext.EntityData = _entityDataService.GetEntityData(_entityType);
+
+            SetDefaultBehaviour();
         }
 
         public bool TryGetEntityComponent<T>(out T component) where T : IComponent

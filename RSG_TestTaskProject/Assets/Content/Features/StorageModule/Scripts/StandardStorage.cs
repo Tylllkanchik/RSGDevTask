@@ -14,6 +14,7 @@ namespace Content.Features.StorageModule.Scripts {
 
         public event Action<Item> OnItemAdded;
         public event Action<Item> OnItemRemoved;
+        public event Action OnStorageCleared;
 
         public StandardStorage(StandardStorageConfiguration standardStorageConfiguration) 
         {
@@ -54,8 +55,9 @@ namespace Content.Features.StorageModule.Scripts {
         }
 
         public void RemoveAllItems() {
-            foreach (Item item in _items)
-                RemoveItem(item);
+            _items.Clear();
+            _storageWeight = 0;
+            OnStorageCleared?.Invoke();
         }
     }
 }

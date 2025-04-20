@@ -1,4 +1,4 @@
-﻿using Content.Features.MoneyModule.Scripts;
+﻿using Content.Features.AIModule.Scripts.Components;
 using Content.Features.StorageModule.Scripts;
 using System;
 using System.Collections.Generic;
@@ -23,12 +23,14 @@ namespace Content.Features.AIModule.Scripts.Entity {
 
         public List<IComponent> PlayerComponents => _playerComponents;
 
-        public PlayerEntityModel(IStorageFactory storageFactory)
+        public event Action OnPlayerEntityChanged;
+
+        public PlayerEntityModel(IStorageFactory storageFactory, IEntityDataService entityDataService)
         {
             _playerComponents.Add(storageFactory.GetStorage());
             _playerComponents.Add(new MoneyComponent());
+            _playerComponents.Add(new HealthComponent(entityDataService.GetEntityData(EntityType.Player).StartHealth));
+            _playerComponents.Add(new EntityTransformComponent());
         }
-
-        public event Action OnPlayerEntityChanged;
     }
 }

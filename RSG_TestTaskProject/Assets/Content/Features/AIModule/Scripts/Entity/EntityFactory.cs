@@ -1,3 +1,4 @@
+using Content.Features.AIModule.Scripts.Components;
 using Content.Features.PrefabSpawner;
 using System.Collections.Generic;
 using UnityEngine;

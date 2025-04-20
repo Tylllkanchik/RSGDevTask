@@ -1,6 +1,5 @@
 using Core.AssetLoaderModule.Core.Scripts;
 using Cysharp.Threading.Tasks;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
@@ -78,6 +77,7 @@ namespace Core.WindowServiceModule.Scripts
 
                 var windowGameObject = GameObject.Instantiate(asset, _canvasRoot);
                 var window = windowGameObject.GetComponent<T>();
+                windowGameObject.SetActive(false);
                 _loadedWindows.Add(windowName, window);
                 return window as T;
             }

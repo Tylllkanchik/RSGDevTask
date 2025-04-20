@@ -1,14 +1,13 @@
-using Content.Features.AIModule.Scripts.Entity;
 using System;
 using UnityEngine;
 
-namespace Content.Features.EntityComponentModule.Scripts
+namespace Content.Features.AIModule.Scripts.Components
 {
     public abstract class MonoComponent<T> : MonoBehaviour, IMonoComponent where T : IComponent
     {
         public abstract Type ComponentType { get; } 
 
-        private T _component;
+        protected T _component;
 
         public IComponent Component => _component;
 
@@ -17,7 +16,20 @@ namespace Content.Features.EntityComponentModule.Scripts
             if (data is T component)
             {
                 _component = component;
+                DataBinded();
             }
+        }
+
+        public void BindNewComponent()
+        {
+            Bind(CreateNewComponent());
+        }
+
+        protected abstract T CreateNewComponent();
+
+        protected virtual void DataBinded()
+        {
+
         }
     }
 }
