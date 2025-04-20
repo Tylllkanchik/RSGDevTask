@@ -16,5 +16,5 @@ MonoBehaviour:
   Name: Book
   Icon: {fileID: 21300000, guid: b30b0f3a78bf00c49a5e792f0ad4856a, type: 3}
   SellPrice: 20
-  Weight: 0.5
+  Weight: 3
   BuyPrice: 40

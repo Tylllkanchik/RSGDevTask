@@ -43,7 +43,7 @@ namespace Content.Features.WindowsModules.Scripts
 
         private void UpdateItemsCountText()
         {
-            _storageItemsCountText.text = "Items count: " + _storage.GetAllItems().Count;
+            _storageItemsCountText.text = "Items count: " + _storage.GetAllItems().Count + " Weignt: " + _storage.StorageWeight + "/" + _storage.MaxStorageWeight;
         }
     }
 }
