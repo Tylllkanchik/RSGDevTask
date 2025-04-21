@@ -53,8 +53,10 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
         private void CollectLoot() {
             if (_entityContext.Entity.TryGetEntityComponent(out IStorage storage))
             {
-                _lootService.CollectLoot(_loot, storage);
-                _loot.DestroyLoot();
+                if(_lootService.TryCollectLoot(_loot, storage))
+                {
+                    _loot.DestroyLoot();
+                }
                 StopMoving();
                 OnBehaviorEnd?.Invoke();
             }

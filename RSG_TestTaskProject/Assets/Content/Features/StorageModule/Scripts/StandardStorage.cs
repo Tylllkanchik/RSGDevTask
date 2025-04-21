@@ -26,6 +26,19 @@ namespace Content.Features.StorageModule.Scripts {
         public List<Item> GetAllItems() =>
             _items.ToList();
 
+        public bool CanAddItem(Item item)
+        {
+            if (_items.Contains(item))
+                return false;
+
+            if (_storageWeight + item.Weight <= _maxStorageWeight)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
         public bool TryAddItem(Item item)
         {
             if (_items.Contains(item))
@@ -41,6 +54,11 @@ namespace Content.Features.StorageModule.Scripts {
             }
 
             return false;
+        }
+
+        public void AddItem(Item item)
+        {
+            TryAddItem(item);
         }
 
         public void RemoveItem(Item item) {

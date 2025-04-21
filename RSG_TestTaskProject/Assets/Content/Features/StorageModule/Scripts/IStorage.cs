@@ -13,8 +13,10 @@ namespace Content.Features.StorageModule.Scripts {
         public event Action OnStorageCleared;
 
         public List<Item> GetAllItems();
-    
+
+        public bool CanAddItem(Item item);
         public bool TryAddItem(Item item);
+        public void AddItem(Item item);
 
         public void RemoveItem(Item item);
         public void RemoveItems(List<Item> items);
