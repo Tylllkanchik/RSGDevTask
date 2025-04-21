@@ -1,5 +1,7 @@
 ﻿using System;
+using Content.Features.AIModule.Scripts.Components;
 using Content.Features.LootModule.Scripts;
+using Content.Features.StorageModule.Scripts;
 using UnityEngine;
 
 namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
@@ -7,14 +9,21 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
         private EntityContext _entityContext;
         private Loot _loot;
         private ILootService _lootService;
+        private EntityTransformComponent _entityTransformComponent;
 
         public event Action OnBehaviorEnd;
 
         public GatherLootEntityBehaviour(ILootService lootService) =>
             _lootService = lootService;
 
-        public void InitContext(EntityContext entityContext) =>
+        public void InitContext(EntityContext entityContext)
+        {
             _entityContext = entityContext;
+            if (_entityContext.Entity.TryGetEntityComponent(out EntityTransformComponent entityTransformComponent))
+            {
+                _entityTransformComponent = entityTransformComponent;
+            }
+        }
 
         public void SetLoot(Loot loot) =>
             _loot = loot;
@@ -39,13 +48,18 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
             _entityContext.NavMeshAgent.ResetPath();
 
         private bool IsNearTheTarget() =>
-            Vector3.Distance(_entityContext.EntityDamageable.Position, _loot.transform.position) <= _entityContext.EntityData.InteractDistance;
+            Vector3.Distance(_entityTransformComponent.Position, _loot.transform.position) <= _entityContext.EntityData.InteractDistance;
 
         private void CollectLoot() {
-            _lootService.CollectLoot(_loot, _entityContext.Storage);
-            _loot.DestroyLoot();
-            StopMoving();
-            OnBehaviorEnd?.Invoke();
+            if (_entityContext.Entity.TryGetEntityComponent(out IStorage storage))
+            {
+                if(_lootService.TryCollectLoot(_loot, storage))
+                {
+                    _loot.DestroyLoot();
+                }
+                StopMoving();
+                OnBehaviorEnd?.Invoke();
+            }
         }
     }
 }

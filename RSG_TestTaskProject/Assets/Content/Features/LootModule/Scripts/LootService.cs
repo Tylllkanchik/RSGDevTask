@@ -1,4 +1,5 @@
-﻿using Content.Features.StorageModule.Scripts;
+﻿using Content.Features.ItemsModule.Scripts;
+using Content.Features.StorageModule.Scripts;
 
 namespace Content.Features.LootModule.Scripts {
     public class LootService : ILootService {
@@ -7,9 +8,37 @@ namespace Content.Features.LootModule.Scripts {
         public LootService(IItemFactory itemFactory) =>
             _itemFactory = itemFactory;
 
-        public void CollectLoot(Loot loot, IStorage storage) {
+        public bool TryCollectLoot(Loot loot, IStorage storage) {
+
+            if(CanAddAllItems(loot, storage))
+            {
+                foreach (ItemType itemType in loot.GetItemsInLoot())
+                {
+                    var item = _itemFactory.GetItem(itemType);
+                    if (storage.CanAddItem(item))
+                    {
+                        storage.AddItem(item);
+                    }
+                }
+
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool CanAddAllItems(Loot loot, IStorage storage)
+        {
             foreach (ItemType itemType in loot.GetItemsInLoot())
-                storage.AddItem(_itemFactory.GetItem(itemType));
+            {
+                var item = _itemFactory.GetItem(itemType);
+                if (!storage.CanAddItem(item))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

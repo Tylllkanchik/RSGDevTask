@@ -1,34 +1,71 @@
-﻿using System;
+﻿using Content.Features.ItemsModule.Scripts;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 namespace Content.Features.StorageModule.Scripts {
     public class StandardStorage : IStorage {
+        
         private List<Item> _items = new List<Item>();
+        private float _storageWeight = 0f;
+        private float _maxStorageWeight = 0f;
+
+        public float StorageWeight => _storageWeight;
+        public float MaxStorageWeight => _maxStorageWeight;
 
         public event Action<Item> OnItemAdded;
         public event Action<Item> OnItemRemoved;
+        public event Action OnStorageCleared;
+
+        public StandardStorage(StandardStorageConfiguration standardStorageConfiguration) 
+        {
+            _maxStorageWeight = standardStorageConfiguration.MaxStorageWeight;
+        }
 
         public List<Item> GetAllItems() =>
             _items.ToList();
 
-        public void AddItem(Item item) {
-            if(_items.Contains(item))
-                return;
-        
-            _items.Add(item);
-            OnItemAdded?.Invoke(item);
+        public bool CanAddItem(Item item)
+        {
+            if (_items.Contains(item))
+                return false;
+
+            if (_storageWeight + item.Weight <= _maxStorageWeight)
+            {
+                return true;
+            }
+
+            return false;
         }
 
-        public void AddItems(List<Item> items) {
-            foreach (Item item in items)
-                AddItem(item);
+        public bool TryAddItem(Item item)
+        {
+            if (_items.Contains(item))
+                return false;
+
+            float newStorageWeight = _storageWeight + item.Weight;
+            if(newStorageWeight <= _maxStorageWeight)
+            {
+                _storageWeight = newStorageWeight;
+                _items.Add(item);
+                OnItemAdded?.Invoke(item);
+                return true;
+            }
+
+            return false;
+        }
+
+        public void AddItem(Item item)
+        {
+            TryAddItem(item);
         }
 
         public void RemoveItem(Item item) {
             if(_items.Contains(item) is false)
                 return;
 
+            _storageWeight -= item.Weight;
             _items.Remove(item);
             OnItemRemoved?.Invoke(item);
         }
@@ -39,8 +76,9 @@ namespace Content.Features.StorageModule.Scripts {
         }
 
         public void RemoveAllItems() {
-            foreach (Item item in _items)
-                RemoveItem(item);
+            _items.Clear();
+            _storageWeight = 0;
+            OnStorageCleared?.Invoke();
         }
     }
 }

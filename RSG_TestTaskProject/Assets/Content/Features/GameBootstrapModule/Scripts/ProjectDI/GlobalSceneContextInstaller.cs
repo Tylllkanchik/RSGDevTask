@@ -7,6 +7,8 @@ using Content.Features.PlayerData.Scripts;
 using Content.Features.PrefabSpawner;
 using UnityEngine;
 using Zenject;
+using Content.Features.GameInitializationModule;
+using Content.Features.ItemsModule.Scripts;
 
 namespace Content.Features.GameBootstrapModule.Scripts.ProjectDI {
     [CreateAssetMenu(menuName = "Configurations/GameBootstrap/" + nameof(GlobalSceneContextInstaller),
@@ -14,12 +16,15 @@ namespace Content.Features.GameBootstrapModule.Scripts.ProjectDI {
     public class GlobalSceneContextInstaller : ScriptableObjectInstaller<GlobalSceneContextInstaller> {
         public override void InstallBindings() {
             PrefabSpawnerInstaller.Install(Container);
+            EntityFactoryInstaller.Install(Container);
             PlayerDataInstaller.Install(Container);
             CameraInstaller.Install(Container);
+            ItemsModuleInstaller.Install(Container);
             StorageModuleInstaller.Install(Container);
             InteractionSystemInstaller.Install(Container);
             AIInstaller.Install(Container);
             LootInstaller.Install(Container);
+            GameInitializationInstaller.Install(Container);
         }
     }
 }

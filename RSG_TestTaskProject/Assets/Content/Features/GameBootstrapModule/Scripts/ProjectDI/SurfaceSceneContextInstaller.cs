@@ -1,4 +1,5 @@
-﻿using Content.Features.PrefabSpawner;
+﻿using Content.Features.AIModule.Scripts.Entity;
+using Content.Features.PrefabSpawner;
 using UnityEngine;
 using Zenject;
 
@@ -8,6 +9,7 @@ namespace Content.Features.GameBootstrapModule.Scripts.ProjectDI {
     public class SurfaceSceneContextInstaller : ScriptableObjectInstaller<SurfaceSceneContextInstaller> {
         public override void InstallBindings() {
             PrefabSpawnerInstaller.Install(Container);
+            EntityFactoryInstaller.Install(Container);
         }
     }
 }

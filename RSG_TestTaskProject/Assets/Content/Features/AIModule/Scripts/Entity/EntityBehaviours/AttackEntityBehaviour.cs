@@ -1,19 +1,34 @@
 ﻿using System;
+using Content.Features.AIModule.Scripts.Components;
 using Content.Features.DamageablesModule.Scripts;
 using UnityEngine;
 
 namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
     public class AttackEntityBehaviour : IEntityBehaviour {
         private EntityContext _entityContext;
+        private EntityTransformComponent _entityTransformComponent;
+        private EntityTransformComponent _targetTransformComponent;
         private IDamageable _targetDamageable;
 
         public event Action OnBehaviorEnd;
 
-        public void InitContext(EntityContext entityContext) =>
+        public void InitContext(EntityContext entityContext)
+        {
             _entityContext = entityContext;
+            if (_entityContext.Entity.TryGetEntityComponent(out EntityTransformComponent entityTransformComponent))
+            {
+                _entityTransformComponent = entityTransformComponent;
+            }
+        }
 
-        public void SetTarget(IDamageable damageable) =>
-            _targetDamageable = damageable;
+        public void SetTarget(MonoEntity monoEntity)
+        {
+            _targetDamageable = monoEntity.GetComponent<IDamageable>();
+            if (monoEntity.TryGetEntityComponent(out EntityTransformComponent entityTransformComponent))
+            {
+                _targetTransformComponent = entityTransformComponent;
+            }
+        }
         
         public void Start() {
             _entityContext.NavMeshAgent.speed = _entityContext.EntityData.Speed;
@@ -40,7 +55,7 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
                 return;
             
             _entityContext.EntityAnimator.SetIsAttacking(false);
-            _entityContext.NavMeshAgent.SetDestination(_targetDamageable.Position);
+            _entityContext.NavMeshAgent.SetDestination(_targetTransformComponent.Position);
         }
 
         private void StopMoving() =>
@@ -50,7 +65,7 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
             if (_targetDamageable.IsActive is false)
                 return false;
             
-            return Vector3.Distance(_entityContext.EntityDamageable.Position, _targetDamageable.Position) <= _entityContext.EntityData.AttackDistance;
+            return Vector3.Distance(_entityTransformComponent.Position, _targetTransformComponent.Position) <= _entityContext.EntityData.AttackDistance;
         }
 
         private void StartAttacking() {

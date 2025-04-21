@@ -7,11 +7,14 @@ namespace Core.InputModule {
     public class InputListener : IInputListener, IInitializable, IDisposable {
         private const string PLAYER_ACTION_MAP = "Player";
         private const string INTERACTION_ACTION = "Interaction";
+        private const string USEPOTION_ACTION = "UsePotion";
         private readonly InputActionAsset _inputActions;
         private InputAction _interactionAction;
+        private InputAction _usePotionAction;
         public event Action<Vector2> OnInteractionPerformed;
         public event Action<Vector2> OnInteractionStarted;
         public event Action<Vector2> OnInteractionCanceled;
+        public event Action OnUsePotionPerformed;
 
         public InputListener(InputActionAsset inputActionAsset) =>
             _inputActions = inputActionAsset;
@@ -19,9 +22,12 @@ namespace Core.InputModule {
         public void Initialize() {
             _inputActions.Enable();
             _interactionAction = _inputActions.FindActionMap(PLAYER_ACTION_MAP).FindAction(INTERACTION_ACTION);
+            _usePotionAction = _inputActions.FindActionMap(PLAYER_ACTION_MAP).FindAction(USEPOTION_ACTION);
             _interactionAction.performed += OnInteraction;
             _interactionAction.started += OnInteraction;
             _interactionAction.canceled += OnInteraction;
+
+            _usePotionAction.performed += OnUsePotionAction;
         }
 
         public void Dispose() {
@@ -29,6 +35,8 @@ namespace Core.InputModule {
             _interactionAction.performed -= OnInteraction;
             _interactionAction.started -= OnInteraction;
             _interactionAction.canceled -= OnInteraction;
+
+            _usePotionAction.performed -= OnUsePotionAction;
         }
 
         public void OnInteraction(InputAction.CallbackContext context) {
@@ -40,6 +48,11 @@ namespace Core.InputModule {
 
             if (context.canceled)
                 OnInteractionCanceled?.Invoke(Mouse.current.position.ReadValue());
+        }
+
+        public void OnUsePotionAction(InputAction.CallbackContext context)
+        {
+            OnUsePotionPerformed?.Invoke();
         }
 
         public void OnNavigate(InputAction.CallbackContext context) {

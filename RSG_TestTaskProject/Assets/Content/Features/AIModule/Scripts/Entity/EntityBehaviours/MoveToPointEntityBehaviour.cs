@@ -1,15 +1,23 @@
-﻿using System;
+﻿using Content.Features.AIModule.Scripts.Components;
+using System;
 using UnityEngine;
 
 namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
     public class MoveToPointEntityBehaviour : IEntityBehaviour {
         private EntityContext _entityContext;
+        private EntityTransformComponent _entityTransformComponent;
         private Vector3 _moveToPosition;
 
         public event Action OnBehaviorEnd;
 
-        public void InitContext(EntityContext entityContext) =>
+        public void InitContext(EntityContext entityContext)
+        {
             _entityContext = entityContext;
+            if (_entityContext.Entity.TryGetEntityComponent(out EntityTransformComponent entityTransformComponent))
+            {
+                _entityTransformComponent = entityTransformComponent;
+            }
+        }
 
         public void SetMoveToPosition(Vector3 teleportPosition) =>
             _moveToPosition = teleportPosition;
@@ -35,6 +43,6 @@ namespace Content.Features.AIModule.Scripts.Entity.EntityBehaviours {
         }
 
         private bool IsNearTheTarget() =>
-            Vector3.Distance(_entityContext.EntityDamageable.Position, _moveToPosition) <= _entityContext.EntityData.InteractDistance;
+            Vector3.Distance(_entityTransformComponent.Position, _moveToPosition) <= _entityContext.EntityData.InteractDistance;
     }
 }
